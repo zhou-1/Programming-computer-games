@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 /**
  * Assignment 1
  * Write a JavaFX application which displays a picture
- * 
+ * with different kinds of images and colors
  * @author Zhou Shen
  * @version Jan 2018
  */
