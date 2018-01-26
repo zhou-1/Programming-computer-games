@@ -1,5 +1,3 @@
-package examples;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,11 +11,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * Turning animation using a
+ * Car turning animation using a
  * Finite State Machine (FSM)
  * 
  * @author mike slattery
- * @version jan 2016
+ * modify by: Zhou
+ * @version jan 2018
  */
 public class Turning extends Application {
 	final String appName = "Turning Demo";
