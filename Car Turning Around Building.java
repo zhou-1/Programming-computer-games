@@ -18,7 +18,7 @@ import javafx.util.Duration;
  * modify by: Zhou
  * @version jan 2018
  */
-public class Turning extends Application {
+public class Car Turning Around Building extends Application {
 	final String appName = "Turning Demo";
 	final int FPS = 25; // frames per second
 	final int WIDTH = 600;
