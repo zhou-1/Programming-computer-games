@@ -1,0 +1,112 @@
+package CollisionDemo;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+	
+/**
+ * Scene of moving boxes
+ * Needs collision handling added
+ * 
+ * @author mike slattery
+ * @version feb 2016
+ */
+
+public class FloatingBoxes extends Application {
+	final String appName = "FloatingBoxes";
+	final int FPS = 30; // frames per second
+	static final int WIDTH = 750;
+	static final int HEIGHT = 500;
+
+	Box[] boxes = new Box[5];
+	
+	/**
+	 * Set up initial data structures/values
+	 */
+	void initialize()
+	{
+		for (int i = 0; i < boxes.length; i++)
+			boxes[i] = new Box();
+	}
+
+	/**
+	 *  Update variables for one time step
+	 */
+	void update() {
+		for (Box b: boxes)
+			b.move();
+		// Run through pairs of boxes checking for collisions
+		// (i > j to avoid duplicate pairs)
+		for (int i = 1; i < boxes.length; i++)
+			for (int j = 0; j < i; j++)
+				if (boxes[i].overlaps(boxes[j]))
+				{
+					boxes[i].reverse();
+					boxes[j].reverse();
+				}
+	}
+
+	/**
+	 *  Draw the game world
+	 */
+	void render(GraphicsContext gc) {
+		// Clear background
+		gc.setFill(Color.CYAN);
+		gc.fillRect(0, 0, WIDTH, HEIGHT);
+
+		// Draw buildings
+		for (Box b: boxes)
+			b.render(gc);
+	}
+
+	/*
+	 * Begin boiler-plate code...
+	 * [Animation with initialization]
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	@Override
+	public void start(Stage theStage) {
+		theStage.setTitle(appName);
+
+		Group root = new Group();
+		Scene theScene = new Scene(root);
+		theStage.setScene(theScene);
+
+		Canvas canvas = new Canvas(WIDTH, HEIGHT);
+		root.getChildren().add(canvas);
+
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+
+		// Initial setup
+		initialize();
+		
+		// Setup and start animation loop (Timeline)
+		KeyFrame kf = new KeyFrame(Duration.millis(1000 / FPS),
+				e -> {
+					// update position
+					update();
+					// draw frame
+					render(gc);
+				}
+			);
+		Timeline mainLoop = new Timeline(kf);
+		mainLoop.setCycleCount(Animation.INDEFINITE);
+		mainLoop.play();
+
+		theStage.show();
+	}
+	/*
+	 * ... End boiler-plate code
+	 */
+}
